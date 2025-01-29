@@ -4,11 +4,11 @@ import numpy as np
 from PIL import Image
 import joblib  # For loading machine learning models
 
-# Load your pre-trained classifier
-#classifier = joblib.load('income_model.pkl')
-
 # Setting the page title and layout
 st.set_page_config(page_title="Income Predictor App", layout ="wide")
+
+# Load your pre-trained classifier
+classifier = joblib.load('models/income_predictor.joblib')
 
 # Title of the app
 st.title("Income Predictor App")
@@ -44,14 +44,14 @@ with st.form("prediction_form", clear_on_submit=True):
 
         try:
             # Perform prediction
-            #prediction = classifier.predict(input_data)
+            prediction = classifier.transform(input_data)
 
             # Display prediction result
             st.balloons()
-           # if prediction[0] == 0:
-               # st.success("Predicted Income: Less than or equal to $50,000", icon="✅")
-           # else:
-               # st.success("Predicted Income: Greater than $50,000", icon="✅")
+            if prediction[0] == 0:
+               st.success("Predicted Income: Less than or equal to $50,000", icon="✅")
+            else:
+                st.success("Predicted Income: Greater than $50,000", icon="✅")
 
             # Optional: Add a visual component or explanation
             st.write("Your inputs have been successfully processed!")
